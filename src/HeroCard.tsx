@@ -128,8 +128,8 @@ export default function HeroCard() {
         </div>
         <p className={`rf-caption${copied ? ' rf-copied' : ''}`}>
           {copied
-            ? '✓ Copied — paste it into your coding agent to install.'
-            : '“ Add an animated shader background component to my React project… ”'}
+            ? '✓ Copied. Paste it into your coding agent to install.'
+            : 'Works with Claude Code, Cursor, and any coding agent.'}
         </p>
       </div>
     </>
