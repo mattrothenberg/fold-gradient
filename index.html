@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Raycast Flow — a Paper Shader</title>
+    <title>FoldGradient — a custom Paper shader</title>
     <style>
       @font-face {
         font-family: 'Inter';
@@ -13,6 +13,8 @@
         font-display: swap;
       }
       html, body, #root { height: 100%; margin: 0; background: #0a0a0b; }
+      /* keep #root's stacking self-contained so portaled UI (toasts) paints above it */
+      #root { isolation: isolate; }
       body {
         font-family: 'Inter', system-ui, sans-serif;
         font-feature-settings: 'cv11', 'ss01'; /* Inter's open digits/alt glyphs */
