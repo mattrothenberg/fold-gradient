@@ -90,7 +90,7 @@ export default function App() {
         ribbon={p.ribbon}
         ribbonWidth={p.ribbonWidth}
       />
-      <DialRoot productionEnabled />
+      <DialRoot productionEnabled defaultOpen={false} />
       <HeroCard />
     </>
   )
