@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { Toast } from '@base-ui/react/toast'
 import { buildPrompt } from './prompt'
+
+const copyToastManager = Toast.createToastManager()
 
 const GITHUB_URL = 'https://github.com/mattrothenberg/fold-gradient' // update when the repo is pushed
 const PAPER_URL = 'https://github.com/paper-design/shaders'
@@ -64,6 +67,22 @@ const css = `
   .rf-primary:hover .rf-agents svg:nth-child(2) { transform: rotate(6deg) translate(-1px,-1px) scale(1.1); }
   .rf-primary:hover .rf-agents svg:nth-child(3) { transform: rotate(-6deg) translate(1px,2px) scale(1.1); }
   .rf-primary:hover .rf-agents svg:nth-child(4) { transform: rotate(12deg) translateX(3px); }
+  .rf-toast {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12.5px; font-weight: 550; letter-spacing: -0.004em;
+    color: #eaf2ff; background: rgba(16,19,26,0.92);
+    padding: 8px 14px; border-radius: 999px; white-space: nowrap;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16), 0 10px 32px rgba(0,0,0,0.5);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    transform-origin: bottom center;
+    transition: opacity 350ms cubic-bezier(0.32,0.72,0,1),
+                transform 350ms cubic-bezier(0.32,0.72,0,1);
+  }
+  .rf-toast[data-starting-style], .rf-toast[data-ending-style] {
+    opacity: 0; transform: translateY(6px) scale(0.94);
+  }
+  .rf-toast-desc { margin: 0; }
+  .rf-toast-desc::before { content: '✓  '; color: #8ec2ff; }
   .rf-ghost {
     background: rgba(18,18,20,0.55); color: rgba(255,255,255,0.92);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14);
@@ -76,9 +95,28 @@ const css = `
   }
 `
 
+function CopyToasts() {
+  const { toasts } = Toast.useToastManager()
+  return (
+    <Toast.Portal>
+      <Toast.Viewport>
+        {toasts.map((toast) => (
+          <Toast.Positioner key={toast.id} toast={toast}>
+            <Toast.Root toast={toast} className="rf-toast">
+              <Toast.Content>
+                <Toast.Description className="rf-toast-desc" />
+              </Toast.Content>
+            </Toast.Root>
+          </Toast.Positioner>
+        ))}
+      </Toast.Viewport>
+    </Toast.Portal>
+  )
+}
+
 export default function HeroCard() {
   const [mounted, setMounted] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const btnRef = useRef<HTMLButtonElement | null>(null)
   useEffect(() => {
     const t = requestAnimationFrame(() => setMounted(true))
     return () => cancelAnimationFrame(t)
@@ -86,12 +124,15 @@ export default function HeroCard() {
 
   const copy = async () => {
     await navigator.clipboard.writeText(buildPrompt())
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2200)
+    copyToastManager.add({
+      description: 'Copied to clipboard',
+      positionerProps: { anchor: btnRef.current, side: 'top', sideOffset: 10 },
+      timeout: 1800,
+    })
   }
 
   return (
-    <>
+    <Toast.Provider toastManager={copyToastManager}>
       <style>{css}</style>
       <div className={`rf-card${mounted ? ' rf-in' : ''}`}>
         <span className="rf-eyebrow">
@@ -109,7 +150,7 @@ export default function HeroCard() {
           Nothing to install. Copy the shader and drop it into your React app.
         </p>
         <div className="rf-row">
-          <button className="rf-btn rf-primary" onClick={copy}>
+          <button ref={btnRef} className="rf-btn rf-primary" onClick={copy}>
             <span className="rf-agents" aria-hidden>
               {/* Claude Code */}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" fillRule="evenodd" clipRule="evenodd"><path d="M20.998 10.949H24v3.102h-3v3.028h-1.487V20H18v-2.921h-1.487V20H15v-2.921H9V20H7.488v-2.921H6V20H4.487v-2.921H3V14.05H0V10.95h3V5h17.998v5.949zM6 10.949h1.488V8.102H6v2.847zm10.51 0H18V8.102h-1.49v2.847z"/></svg>
@@ -118,7 +159,7 @@ export default function HeroCard() {
               <svg width="16" height="16" viewBox="82.65 82.65 634.71 634.71" fill="currentColor" fillRule="evenodd"><path d="M165.29 165.29H517.36V400H400V517.36H282.65V634.72H165.29ZM282.65 282.65V400H400V282.65Z"/><path d="M517.36 400H634.72V634.72H517.36Z"/></svg>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" fillRule="evenodd"><path d="M16 6H8v12h8V6zm4 16H4V2h16v20z"/></svg>
             </span>
-            {copied ? 'Copied!' : 'Copy for your agent'}
+            Copy for your agent
           </button>
           <a className="rf-btn rf-ghost" href={GITHUB_URL} target="_blank" rel="noreferrer">
             <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.42 7.42 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
@@ -126,6 +167,7 @@ export default function HeroCard() {
           </a>
         </div>
       </div>
-    </>
+      <CopyToasts />
+    </Toast.Provider>
   )
 }
