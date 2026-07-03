@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raycast Flow — a Paper Shader</title>
+    <style>
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/InterVariable.woff2') format('woff2');
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      html, body, #root { height: 100%; margin: 0; background: #0a0a0b; }
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-feature-settings: 'cv11', 'ss01'; /* Inter's open digits/alt glyphs */
+        -webkit-font-smoothing: antialiased;
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      .shiki { margin: 0; padding: 12px 16px; background: rgba(16,16,18,0.9) !important; font-family: 'SF Mono', ui-monospace, Menlo, monospace; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
