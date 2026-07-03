@@ -106,7 +106,7 @@ export default function HeroCard() {
         </span>
         <h1 className="rf-title">FoldGradient</h1>
         <p className="rf-sub">
-          Soft, flowing sheets of light for your next hero section.
+          Soft, flowing sheets of light for your next hero section, inspired by Raycast's wallpapers.
           Nothing to install. Copy the shader and drop it into your React app.
         </p>
         <div className="rf-row">
