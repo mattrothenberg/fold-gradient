@@ -2,7 +2,7 @@
 
 Soft, flowing sheets of light for your next hero section. A custom [Paper Shader](https://github.com/paper-design/shaders), distributed the simplest way possible: **you copy the source.**
 
-**[Live demo →](https://fold-gradient.pages.dev)**
+**[Live demo →](https://fold-gradient.hello-a91.workers.dev)**
 
 ## How to use it
 
