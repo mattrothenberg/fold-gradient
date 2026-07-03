@@ -7,7 +7,7 @@ const PAPER_URL = 'https://github.com/paper-design/shaders'
 const css = `
   .rf-card {
     position: fixed; left: 28px; bottom: 28px; z-index: 10;
-    width: min(420px, calc(100vw - 56px));
+    width: min(480px, calc(100vw - 56px));
     font-family: 'Inter', system-ui, sans-serif;
     padding: 28px 28px 24px; border-radius: 24px;
     background: rgba(14,14,17,0.42);
@@ -56,7 +56,14 @@ const css = `
   }
   .rf-primary:hover { transform: translateY(-1px); background: #161a23; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.24), 0 14px 40px rgba(0,0,0,0.55); }
   .rf-primary:hover:active { transform: scale(0.97); }
-  .rf-agents { display: inline-flex; align-items: center; gap: 7px; margin-right: 2px; opacity: 0.92; }
+  .rf-agents { display: inline-flex; align-items: center; gap: 6px; margin-right: 2px; opacity: 0.92; }
+  .rf-agents svg { transition: transform 300ms ease-out; }
+  .rf-agents svg:nth-child(1) { transform: rotate(-6deg); }
+  .rf-agents svg:nth-child(4) { transform: rotate(6deg); }
+  .rf-primary:hover .rf-agents svg:nth-child(1) { transform: rotate(-12deg) translateX(-3px); }
+  .rf-primary:hover .rf-agents svg:nth-child(2) { transform: rotate(6deg) translate(-1px,-1px) scale(1.1); }
+  .rf-primary:hover .rf-agents svg:nth-child(3) { transform: rotate(-6deg) translate(1px,2px) scale(1.1); }
+  .rf-primary:hover .rf-agents svg:nth-child(4) { transform: rotate(12deg) translateX(3px); }
   .rf-ghost {
     background: rgba(18,18,20,0.55); color: rgba(255,255,255,0.92);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14);
@@ -104,12 +111,12 @@ export default function HeroCard() {
         <div className="rf-row">
           <button className="rf-btn rf-primary" onClick={copy}>
             <span className="rf-agents" aria-hidden>
-              {/* claude-ish starburst */}
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="currentColor"><path d="M7 0l1.1 4.2L12 2.3 9.8 5.9 14 7l-4.2 1.1L11.7 12 8.1 9.8 7 14 5.9 9.8 2.3 11.7 4.2 8.1 0 7l4.2-1.1L2.3 2.3l3.6 1.9L7 0z"/></svg>
-              {/* terminal block */}
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="3" stroke="currentColor" strokeWidth="1.4"/><path d="M4 5l2.2 2L4 9M7.5 9.2H10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              {/* cursor */}
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="currentColor"><path d="M2 1l10 5.4-4.4 1.2L6.4 12 2 1z"/></svg>
+              {/* Claude Code */}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" fillRule="evenodd" clipRule="evenodd"><path d="M20.998 10.949H24v3.102h-3v3.028h-1.487V20H18v-2.921h-1.487V20H15v-2.921H9V20H7.488v-2.921H6V20H4.487v-2.921H3V14.05H0V10.95h3V5h17.998v5.949zM6 10.949h1.488V8.102H6v2.847zm10.51 0H18V8.102h-1.49v2.847z"/></svg>
+              {/* OpenAI */}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" fillRule="evenodd"><path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z"/></svg>
+              <svg width="16" height="16" viewBox="82.65 82.65 634.71 634.71" fill="currentColor" fillRule="evenodd"><path d="M165.29 165.29H517.36V400H400V517.36H282.65V634.72H165.29ZM282.65 282.65V400H400V282.65Z"/><path d="M517.36 400H634.72V634.72H517.36Z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" fillRule="evenodd"><path d="M16 6H8v12h8V6zm4 16H4V2h16v20z"/></svg>
             </span>
             {copied ? 'Copied!' : 'Copy for your agent'}
           </button>
