@@ -8,12 +8,12 @@ Soft, flowing sheets of light for your next hero section. A custom [Paper Shader
 
 ## How to use it
 
-No npm package. On the demo site, hit **Copy Shader** — your clipboard gets a self-contained prompt with the full component and shader source. Paste it into your coding agent (Claude Code, Cursor, etc.) and it installs itself into your project.
+No npm package. On the demo site, hit **Copy for your agent** — your clipboard gets a self-contained prompt with the full component and shader source. Paste it into your coding agent (Claude Code, Cursor, etc.) and it installs itself into your project.
 
 Prefer to do it by hand? Grab the two files and one dependency:
 
 ```bash
-npm install @paper-design/shaders-react
+pnpm add @paper-design/shaders-react
 ```
 
 - [`src/FoldGradient.tsx`](src/FoldGradient.tsx) — the React component
@@ -56,8 +56,8 @@ A single-pass WebGL2 fragment shader mounted on Paper's open-source `<ShaderMoun
 ## Running the demo locally
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 ## Credits

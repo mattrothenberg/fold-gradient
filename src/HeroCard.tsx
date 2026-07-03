@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Toast } from '@base-ui/react/toast'
-import { buildPrompt } from './prompt'
+import { buildPrompt, type PromptConfig } from './prompt'
 
 const copyToastManager = Toast.createToastManager()
 
@@ -57,10 +57,12 @@ const css = `
     background: #10131a; color: #ffffff;
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16), 0 10px 32px rgba(0,0,0,0.5);
   }
-  .rf-primary:hover { transform: translateY(-1px); background: #161a23; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.24), 0 14px 40px rgba(0,0,0,0.55); }
-  .rf-primary:hover:active { transform: scale(0.97); }
+  .rf-primary:hover { background: #161a23; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.24), 0 14px 40px rgba(0,0,0,0.55); }
   .rf-agents { display: inline-flex; align-items: center; gap: 6px; margin-right: 2px; opacity: 0.92; }
-  .rf-agents svg { transition: transform 300ms ease-out; }
+  .rf-agents svg {
+    display: block; transform-origin: center; will-change: transform;
+    transition: transform 400ms cubic-bezier(0.32,0.72,0,1);
+  }
   .rf-agents svg:nth-child(1) { transform: rotate(-6deg); }
   .rf-agents svg:nth-child(4) { transform: rotate(6deg); }
   .rf-primary:hover .rf-agents svg:nth-child(1) { transform: rotate(-12deg) translateX(-3px); }
@@ -114,7 +116,7 @@ function CopyToasts() {
   )
 }
 
-export default function HeroCard() {
+export default function HeroCard({ config }: { config: PromptConfig }) {
   const [mounted, setMounted] = useState(false)
   const btnRef = useRef<HTMLButtonElement | null>(null)
   useEffect(() => {
@@ -123,7 +125,7 @@ export default function HeroCard() {
   }, [])
 
   const copy = async () => {
-    await navigator.clipboard.writeText(buildPrompt())
+    await navigator.clipboard.writeText(buildPrompt(config))
     copyToastManager.add({
       description: 'Copied to clipboard',
       positionerProps: { anchor: btnRef.current, side: 'top', sideOffset: 10 },

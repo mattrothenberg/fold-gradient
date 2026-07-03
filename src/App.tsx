@@ -91,7 +91,19 @@ export default function App() {
         ribbonWidth={p.ribbonWidth}
       />
       <DialRoot productionEnabled defaultOpen={false} />
-      <HeroCard />
+      <HeroCard
+        config={{
+          colors: scheme.colors,
+          bgColor: scheme.background,
+          shadowColor: scheme.shadow,
+          softness: p.softness,
+          saturation: p.saturation,
+          rotation: p.rotation,
+          zoom: p.zoom,
+          ribbon: p.ribbon,
+          ribbonWidth: p.ribbonWidth,
+        }}
+      />
     </>
   )
 }
