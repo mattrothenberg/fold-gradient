@@ -21,6 +21,21 @@
         -webkit-font-smoothing: antialiased;
       }
       *, *::before, *::after { box-sizing: border-box; }
+      /* pulse ring on the DialKit trigger while the panel is minimized */
+      .dialkit-panel-inner[data-collapsed='true'] { position: relative; }
+      .dialkit-panel-inner[data-collapsed='true']::after {
+        content: ''; position: absolute; inset: -1px; border-radius: 50%;
+        pointer-events: none;
+        animation: dialkit-pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      @keyframes dialkit-pulse {
+        0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.35); }
+        70%  { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+        100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .dialkit-panel-inner[data-collapsed='true']::after { animation: none; }
+      }
       .shiki { margin: 0; padding: 12px 16px; background: rgba(16,16,18,0.9) !important; font-family: 'SF Mono', ui-monospace, Menlo, monospace; }
     </style>
   </head>
